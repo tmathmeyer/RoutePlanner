@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/maps.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <title>Carpool Organizer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCdZi9hSlTGoefLScWyVtSl9-mUww13hQs&libraries=places&signed_in=true"></script>
+    <script type="text/javascript" src="js/maps.js"></script>
+    <script type="text/javascript" src="js/icanhaz.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/xxhash.min.lmd.js"></script>
+
+    <script id="createTrip" type="text/html">
+      <a onclick="newTrip()" id="tripcreate" class="bigbluebutton"> Create Trip </a>
+    </script>
+
+    <script id="tripPinCreator" type="text/html">
+      <a id="planRoute" class="bigbluebutton" onclick="planRoute()">
+        plan route
+      </a>
+      <div id="pinCreator">
+        <ul id="pinList" class="no-indent-ul">
+          <li class="tripPinElement" id="placeholdermessage">
+            place pins on the map to add a location!
+          </li>
+        </ul>
+      </div>
+    </script>
+
+    <script id="tripPinElement" type="text/html">
+      <li class="tripPinElement" id="pinElement-{{name}}">
+        <div id="driver-passenger" class="halign-left">
+          <i class="fa fa-car unselected button" id="driver-{{name}}" onclick="setDriver('{{name}}')"></i>
+          <i class="fa fa-user selected button" id="passenger-{{name}}" onclick="setPassenger('{{name}}')"></i>
+        </div>
+        <div id="delete-item" class="halign-right">
+          <i class="fa fa-trash redbutton button" onclick="deletePin('{{name}}')"></i>
+        </div>
+        <div id="pin-name" class="halign-center">
+          <center>
+            <z onclick="editName('{{name}}')">{{name}}</z>
+          </center>
+        </div>
+        <br />
+      </li>
+    </script>
+
+    <script id="routeDecider" type="text/html">
+      <a id="planRoute" class="bigbluebutton" onclick="finish()">
+        finish and share
+      </a>
+      <h3> Drivers </h3>
+      <ul id="drivers" class="no-indent-ul">
+      </ul>
+      <hr>
+      <hr>
+      <h3> Passengers </h3>
+      <ul id="passengers" class="no-indent-ul">
+      </ul>
+    </script>
+
+    <script id="routeDeciderDriver" type="text/html">
+      <li class="tripPinElement" name="{{name}}" ondrop="drop(event)" ondragover="allowDrop(event)" id="driver-{{name}}">
+        <i class="fa fa-car"></i>&nbsp&nbsp&nbsp{{name}}
+        <ul id="driver-{{name}}-list" class="nested">
+        </ul>
+      </li>
+    </script>
+
+    <script id="routeDeciderPassenger" type="text/html">
+      <li class="tripPinElement" name="{{name}}" id="passenger-{{name}}" draggable="true" ondragstart="drag(event)">
+        <i class="fa fa-user"></i>&nbsp&nbsp{{name}}
+      </li>
+    </script>
+
+
+
+  </head>
+  <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="information-panel" class="floating-panel">
+    </div>
+    <div id="map-canvas"></div>
+  </body>
+</html>
